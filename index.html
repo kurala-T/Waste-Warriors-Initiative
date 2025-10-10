@@ -123,6 +123,19 @@
             background-color: #fefce8;
             transform: scale(1.02);
         }
+
+        /* NEW: Style for Completed Phase */
+        .phase-card.completed {
+            border-color: #10b981; /* Emerald 500 */
+            background-color: #ecfdf5; /* Emerald 50 */
+            opacity: 0.8;
+            box-shadow: none;
+            cursor: default;
+        }
+        .phase-card.completed:hover {
+            transform: none;
+            box-shadow: none;
+        }
         
         /* Leaderboard Hover */
         #leaderboard-placeholder tr:hover {
@@ -192,7 +205,7 @@
                     <p class="text-gray-400 font-semibold">Target Waste Reduction %</p>
                 </div>
                 <div class="card p-6 scroll-reveal">
-                    <p id="total-paper-recycled" class="text-3xl font-bold text-primary" data-count-to="50">0</p>
+                    <p id="total-paper-recycled" class="text-3xl font-bold text-primary" data-count-to="25">0</p>
                     <p class="text-gray-400 font-semibold">Paper Recycling Goal(kg)</p>
                 </div>
                 <div class="card p-6 scroll-reveal">
@@ -205,23 +218,22 @@
 
         <section id="timeline" class="py-16 md:py-24 scroll-reveal content-section">
             <h2 class="text-4xl lg:text-5xl font-extrabold text-center section-header mb-12">Our Plan</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div class="phase-card card active p-6 text-center" data-phase="1">
-                    <h3 class="text-xl font-bold text-gray-800">Phase 1 (Week 1)</h3>
-                    <p class="text-sm text-primary font-semibold mt-1">Preparation & Setup</p>
+            <!-- UPDATED: Phase 1 is now marked as completed, Phase 2 is active -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div class="phase-card card completed p-6 text-center" data-phase="1">
+                    <h3 class="text-xl font-bold text-gray-800">✅ Phase 1 (Completed)</h3>
+                    <p class="text-sm text-gray-500 font-semibold mt-1">Preparation & Setup</p>
                 </div>
-                <div class="phase-card card p-6 text-center" data-phase="2">
-                    <h3 class="text-xl font-bold text-gray-800">Phase 2 (Week 1)</h3>
+                <div class="phase-card card active p-6 text-center" data-phase="2">
+                    <h3 class="text-xl font-bold text-gray-800">Phase 2 (Week 2)</h3>
                     <p class="text-sm text-primary font-semibold mt-1">Implementation Kick-off</p>
                 </div>
+                <!-- Combined Phase 3 & 4 -->
                 <div class="phase-card card p-6 text-center" data-phase="3">
-                    <h3 class="text-xl font-bold text-gray-800">Phase 3 (Week 2)</h3>
-                    <p class="text-sm text-primary font-semibold mt-1">Sustained Efforts</p>
+                    <h3 class="text-xl font-bold text-gray-800">Phase 3 (Week 3)</h3>
+                    <p class="text-sm text-primary font-semibold mt-1">Analysis & Conclusion</p>
                 </div>
-                <div class="phase-card card p-6 text-center" data-phase="4">
-                    <h3 class="text-xl font-bold text-gray-800">Phase 4 (Week 3) </h3>
-                    <p class="text-sm text-primary font-semibold mt-1">Conclusion & Celebration</p>
-                </div>
+                <!-- Original Phase 4 Card REMOVED -->
             </div>
             <div id="phase-details" class="bg-white p-8 rounded-lg shadow-inner border">
             </div>
@@ -230,7 +242,7 @@
         <section id="dashboard" class="py-16 md:py-24 scroll-reveal content-section">
              <div class="text-center mb-8">
                 <h2 class="text-3xl font-bold text-gray-800 mb-2">Waste Tracking: Daily Progress</h2>
-                <p class="text-lg text-gray-600">This chart shows our progress.<br>**Weekends not included**</p>
+                <p class="text-lg text-gray-600">This chart shows our progress. **13 to 17, 22 to 24 october only**</p>
             </div>
             <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg">
                 <div class="chart-container">
@@ -250,7 +262,7 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h3 class="text-2xl font-bold text-green-800 mb-4">Competition Rules </h3>
+                    <h3 class="text-2xl font-bold text-green-800 mb-4">Competition Rules </h3>
                     <ul class="list-disc list-inside space-y-2 text-gray-700">
                         <li><b>Waste Segregation:</b> Highest accuracy in sorting paper from general waste.</li>
                         <li><b>Waste Reduction:</b> Greatest percentage decrease in total classroom waste.</li>
@@ -296,22 +308,22 @@
             //  WHEN YOU NEED TO UPDATE THE DASHBOARD, EDIT THE NUMBERS IN THESE TWO SECTIONS ONLY!
             // =========================================================================================
 
-            // A. DAILY WASTE DATA FOR THE CHART (Max 14 days)
+            // A. DAILY WASTE DATA FOR THE CHART (Max 7 days)
             //    - The index (0, 1, 2, etc.) corresponds to the day number (Day 1, Day 2, Day 3...).
-            //    - The arrays MUST be 14 items long to align with the chart labels.
+            //    - The arrays MUST be 7 items long to align with the chart labels.
             
-            const chartLabels = Array.from({ length: 14 }, (_, i) => `Day ${i + 1}`);
+            const chartLabels = Array.from({ length: 8 }, (_, i) => `Day ${i + 1}`);
 
-            // 1. Total Classroom Waste (in kg) for each day (MAX 14 ENTRIES)
+            // 1. Total Classroom Waste (in kg) for each day (MAX 7 ENTRIES)
             //    EXAMPLE: [Day 1: 15.2, Day 2: 14.5, Day 3: 13.0, Day 4: 13.5, Day 5: 12.0, Day 6: null...]
             let totalWasteData = [
-                null, null, null, null, null, null, null, null, null, null, null, null, null, null
+                null, null, null, null, null, null, null
             ];
 
-            // 2. Total Paper Recycled (in kg) for each day (MAX 14 ENTRIES)
+            // 2. Total Paper Recycled (in kg) for each day (MAX 7 ENTRIES)
             //    EXAMPLE: [Day 1: 3.5, Day 2: 4.0, Day 3: 5.5, Day 4: 5.2, Day 5: 6.8, Day 6: null...]
             let paperWasteData = [
-              null, null, null, null, null, null, null, null, null, null, null, null
+                null, null, null, null, null, null, null
             ];
 
 
@@ -499,6 +511,14 @@
             // Tabbed Navigation Logic
             const navLinks = document.querySelectorAll('.nav-link');
             const contentSections = document.querySelectorAll('.content-section');
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            // Mobile Menu Toggle Logic
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
             function switchTab(targetId) {
                 contentSections.forEach(section => {
                     section.classList.toggle('active', section.id === targetId);
@@ -527,41 +547,33 @@
             function updatePhaseDetails(phase) {
                 const details = {
                     '1': {
-                        title: 'Phase 1: Preparation & Setup',
+                        title: 'Phase 1: Preparation & Setup (COMPLETED)',
                         content: `
-                            <ul class="list-disc list-inside space-y-2">
-                                <li><strong>Form Core Team:</strong> Establish a team of student leaders.</li>
-                                <li><strong>Define Competition:</strong> Set clear rules and prizes for the competition focusing on segregation accuracy and waste reduction.</li>
-                                <li><strong>Design Survey:</strong> Draft a concise survey for cleaners to understand current challenges.</li>
-                                <li><strong>Develop Materials:</strong> Create engaging visual aids and presentations for junior classes.</li>
-                                <li><strong>Coordinate Logistics:</strong> Contact the paper recycling plant and ensure all equipment (bins, scales) is ready.</li>
+                            <ul class="list-disc list-inside space-y-2 text-gray-500">
+                                <li><strike><strong>Form Core Team:</strong> Establish a team of student leaders.</strike></li>
+                                <li><strike><strong>Define Competition:</strong> Set clear rules and prizes for the competition focusing on segregation accuracy and waste reduction.</strike></li>
+                                <li><strike><strong>Design Survey:</strong> Draft a concise survey for cleaners to understand current challenges.</strike></li>
+                                <li><strike><strong>Develop Materials:</strong> Create engaging visual aids and presentations for junior classes.</strike></li>
+                                <li><strike><strong>Conduct Surveys:</strong> The team will interview the school cleaners and teachers to gather insights.</strike></li>
                             </ul>`
                     },
                     '2': {
                         title: 'Phase 2: Implementation Kick-off',
                         content: `
                             <ul class="list-disc list-inside space-y-2">
-                                <li><strong>Launch Initiative:</strong> Announce the "Waste Warriors" initiative during school assembly.</li>
-                                <li><strong>Conduct Surveys:</strong> The team will interview the school cleaners to gather insights.</li>
+                                <li><strong>Launch Initiative:</strong> Announce the "Waste Warriors" initiative during school assembly and raise awareness about waste management.</li>
+                                <li><strong>Coordinate Logistics:</strong> Contact the paper recycling plant and ensure all equipment (bins, scales) is ready.</li>
                                 <li><strong>Start Competition:</strong> Officially begin the competition.</li>
                                 <li><strong>Begin Daily Measurement:</strong> Start the two-week process of weighing classroom waste daily.</li>
-                                <li><strong>Educate Juniors:</strong> Grade 7 student volunteers begin visiting junior classes to teach waste sorting.</li>
+                                <li><strong>Educate Juniors:</strong> Grade 7 student volunteers begin visiting junior classes to teach waste sorting and maintain daily collection and weighing of waste.</li>
                             </ul>`
                     },
                     '3': {
-                        title: 'Phase 3: Sustained Efforts',
+                        title: 'Phase 3: Sustained Efforts, Analysis & Conclusion',
                         content: `
                             <ul class="list-disc list-inside space-y-2">
-                                <li><strong>Continue Daily Measurement:</strong> Maintain rigorous daily collection and weighing of waste.</li>
-                                <li><strong>Manage Paper Collection:</strong> Regularly transfer collected paper to the central point for the recycling plant.</li>
                                 <li><strong>Monitor Competition:</strong> Check in with competing classes to offer encouragement and ensure rules are followed.</li>
-                            </ul>`
-                    },
-                    '4': {
-                        title: 'Phase 4: Conclusion & Celebration',
-                        content: `
-                            <ul class="list-disc list-inside space-y-2">
-                                <li><strong>Analyze Data:</strong> Compile two weeks of data to calculate the overall waste reduction percentage.</li>
+                                <li><strong>Analyze Data:</strong> Compile two weeks of data to calculate the overall waste reduction percentage and update the site.</li>
                                 <li><strong>Select Winners:</strong> Evaluate competition participants and select the winning class.</li>
                                 <li><strong>Announce Results:</strong> In the assembly, share the fantastic results with the whole school.</li>
                                 <li><strong>Recognize Efforts:</strong> Announce winners, present prizes, and thank everyone involved, especially the cleaning staff.</li>
@@ -582,7 +594,7 @@
                 });
             });
 
-            updatePhaseDetails('1'); // Initialize with Phase 1 details
+            updatePhaseDetails('2'); // Initialize with Phase 2 details
 
 
             // Number Counting Animation
