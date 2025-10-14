@@ -10,8 +10,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* UPDATED COLOR PALETTE: Using richer, contrasting greens */
         :root {
-            --primary: #65a30d;
+            --primary: #8BC34A; /* Light, vibrant green (used for counters, active elements) */
+            --dark-green: #2E7D32; /* Deep, strong green (used for headers, primary text) */
             --secondary: #9ca3af;
             --background: #f9fafb;
             --text-dark: #1f2937;
@@ -29,7 +31,7 @@
         }
 
         .section-header {
-            color: var(--primary);
+            color: var(--dark-green); /* Using dark green for impact */
             font-weight: 800;
         }
 
@@ -73,7 +75,7 @@
             top: 20px;
             right: -350px;
             width: 300px;
-            background-color: #fff;
+            background-color: var(--card-bg);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -87,16 +89,15 @@
             right: 15px;
             font-size: 24px;
             cursor: pointer;
-            color: #999;
+            color: var(--text-light);
         }
-        /* REMOVED: .did-you-know-popup .image CSS since image is removed from HTML */
-
+        
         /* Top Navigation */
         .top-nav {
             position: fixed;
             top: 0; left: 0;
             width: 100%;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             z-index: 50;
@@ -110,25 +111,25 @@
         }
         .nav-link:hover {
             background-color: #e5e7eb;
-            color: var(--primary);
+            color: var(--dark-green);
         }
         .nav-link.active {
-            background-color: #fefce8;
-            color: var(--primary);
+            background-color: #e8f5e9; /* Light green background */
+            color: var(--dark-green);
         }
         
         /* Phase Card Active */
         .phase-card.active {
             border-color: var(--primary);
-            background-color: #fefce8;
+            background-color: #f1f8e9; /* Very light green */
             transform: scale(1.02);
         }
 
-        /* NEW: Style for Completed Phase */
+        /* Style for Completed Phase */
         .phase-card.completed {
-            border-color: #10b981; /* Emerald 500 */
-            background-color: #ecfdf5; /* Emerald 50 */
-            opacity: 0.8;
+            border-color: #4CAF50; /* Primary green border for completed */
+            background-color: #e8f5e9; /* Very light green bg */
+            opacity: 0.9;
             box-shadow: none;
             cursor: default;
         }
@@ -170,23 +171,29 @@
 
     <header class="top-nav">
         <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <h1 class="text-xl md:text-2xl font-bold text-gray-800">Waste Warriors</h1>
+            <!-- LOGO INTEGRATION in NAV bar -->
+            <div class="flex items-center space-x-2">
+                <img src="https://raw.githubusercontent.com/kurala-T/Waste-Warriors-Initiative/main/w.w.i.l.png" alt="Waste Warriors Logo" class="h-8 w-8">
+                <h1 class="text-xl md:text-2xl font-bold text-gray-800">Waste Warriors</h1>
+            </div>
             <div class="hidden md:flex items-center space-x-2">
                 <a class="nav-link" href="#overview" data-target="overview">Overview</a>
+                <!-- NEW NAV LINK: Our Story -->
+                <a class="nav-link" href="#ourstory" data-target="ourstory">Our Story</a>
                 <a class="nav-link" href="#timeline" data-target="timeline">Our Plan</a>
                 <a class="nav-link" href="#dashboard" data-target="dashboard">Dashboard</a>
                 <a class="nav-link" href="#competition" data-target="competition">Competition</a>
-                <!-- NEW: Extras Nav Link -->
                 <a class="nav-link" href="#extras" data-target="extras">Extras</a>
             </div>
             <button id="menu-btn" class="md:hidden text-gray-700 text-2xl">☰</button>
         </nav>
         <div id="mobile-menu" class="hidden flex-col items-center space-y-2 pb-4 md:hidden">
             <a class="nav-link" href="#overview" data-target="overview">Overview</a>
+            <!-- NEW MOBILE NAV LINK: Our Story -->
+            <a class="nav-link" href="#ourstory" data-target="ourstory">Our Story</a>
             <a class="nav-link" href="#timeline" data-target="timeline">Our Plan</a>
             <a class="nav-link" href="#dashboard" data-target="dashboard">Dashboard</a>
             <a class="nav-link" href="#competition" data-target="competition">Competition</a>
-            <!-- NEW: Mobile Extras Link -->
             <a class="nav-link" href="#extras" data-target="extras">Extras</a>
         </div>
     </header>
@@ -194,15 +201,27 @@
     <main class="container mx-auto p-4 sm:p-6 lg:p-12">
         <section id="overview" class="py-20 lg:py-32 text-center flex flex-col items-center justify-center min-h-screen scroll-reveal content-section active">
             <div class="scrolling-text text-3xl font-bold text-gray-400 mb-8">
-                <!-- Updated Marquee Text -->
+                <!-- REVERTED MARQUEE: Back to simple message -->
                 <span>Reduce, Reuse, Recycle! Hosted by Grade 7 Waste Warriors! Small actions make a big change — so let’s be responsible, reuse, and recycle for a better future!</span>
             </div>
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold section-header leading-tight animate-pulse">
-                Waste Warriors Initiative
-            </h1>
+            
+            <!-- REVERTED: Removed logo next to main heading -->
+            <div class="flex items-center justify-center space-x-4">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold section-header leading-tight animate-pulse">
+                    Waste Warriors Initiative
+                </h1>
+                <!-- Logo was removed here -->
+            </div>
+            <!-- REVERTED: End of main heading -->
+
+            <!-- REVERTED OVERVIEW TEXT: Back to original purpose statement -->
             <p class="text-lg sm:text-xl lg:text-2xl mt-6 max-w-4xl mx-auto text-gray-500">
                 A school-wide movement to create a more sustainable future, one kilogram at a time. This dashboard tracks our progress and celebrates our champions.
             </p>
+            
+            <!-- REMOVED SDG CONNECTION CARD FROM OVERVIEW -->
+            
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center max-w-4xl mx-auto mt-12">
                 <div class="card p-6 scroll-reveal">
                     <p class="text-3xl font-bold text-primary" data-count-to="15">0</p>
@@ -219,6 +238,86 @@
                 </div>
             </div>
         </section>
+
+        <!-- NEW OUR STORY SECTION -->
+        <section id="ourstory" class="py-16 md:py-24 scroll-reveal content-section">
+            <h2 class="text-4xl lg:text-5xl font-extrabold text-center section-header mb-12">Our Story & Team</h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- STORY CONTENT (col-span-2) -->
+                <div class="story-content bg-white p-8 rounded-lg shadow-lg col-span-1 lg:col-span-2 text-left">
+                    <h3 class="text-3xl font-extrabold text-dark-green mb-6">Our Journey Begins: Harmony with Nature</h3>
+                    
+                    <!-- ADDED MOTIVATIONAL QUOTE -->
+                    <p class="text-2xl font-bold text-primary italic mb-6">
+                        "The smallest actions create the biggest change."
+                    </p>
+                    
+                    <!-- INTRO SPEECH -->
+                    <p class="mb-4 text-gray-700">
+                         We are the students of Grade 7, and we have something very special planned — a project that began as a discussion during the Value in Focus – Harmony with Nature and has now grown into a school-wide movement!
+                    </p>
+                    <p class="mb-4 text-gray-700">
+                        We realized that living in harmony with nature means taking care of the world around us — not just in words, but through our daily actions. When we looked around, we noticed how much waste our school generates — paper bits, snack wrappers, chart scraps, and so much more. So, we decided to take action and become Waste Warriors, launching the Waste Warriors Initiative W.W.I!
+                    </p>
+                    <p class="mb-4 text-gray-700">
+                        With the support of our teachers and housekeeping staff, we conducted a waste survey to understand what’s being thrown away and how we can do better. We learned that much of our waste can actually be reduced, reused, or recycled — if we start being more mindful in our classrooms.
+                    </p>
+                    <p class="mb-4 text-gray-700">
+                        Our mission is built on the 5Rs — Refuse, Reduce, Reuse, Repurpose, and Recycle. To bring this to life, we’re launching the “Clean Green Classroom Challenge” where every class will: Reduce waste generation, Segregate waste correctly, and Keep classrooms clean and eco-friendly.
+                    </p>
+                    <p class="mb-6 text-gray-700">
+                        And here’s an exciting addition — an Upcycling Challenge! Each class can create one artistic or useful item made entirely from classroom waste — like paper sculptures, eco-decor, or reusable organizers. This will show how creativity can transform waste into wonder!
+                    </p>
+
+                    <!-- ADDED SDG CONNECTION CARD FROM OVERVIEW -->
+                    <div class="card p-6 scroll-reveal mt-8 w-full text-left bg-gray-50 border-gray-200">
+                        <h3 class="text-2xl font-bold text-dark-green mb-3">Our Mission & Global Impact (SDGs)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
+                            <div>
+                                <p class="font-semibold text-lg mb-1">Clean Green Classroom Challenge Goals:</p>
+                                <ul class="list-disc list-inside ml-4 space-y-1 text-sm">
+                                    <li>Reduce waste generation.</li>
+                                    <li>Segregate waste correctly.</li>
+                                    <li>Keep classrooms clean and eco-friendly.</li>
+                                    <li>Upcycling Challenge: Create one artistic or useful item made entirely from classroom waste.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-lg mb-1">United Nations Sustainable Development Goals:</p>
+                                <ul class="list-disc list-inside ml-4 space-y-1 text-sm">
+                                    <li>✅ SDG 12: Responsible Consumption and Production</li>
+                                    <li>✅ SDG 13: Climate Action</li>
+                                    <li>✅ SDG 15: Life on Land</li>
+                                    <li>✅ SDG 4.7: Quality Education (Responsible Living)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OUR TEAM CARD (Remains Col-span-1) -->
+                <div class="card p-6 col-span-1 h-fit">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                        👥 Our Team
+                    </h3>
+                    <p class="text-gray-600 mb-4 italic">
+                        Members: Tejas, Prithish, Manashvi, Oviyan, Shrawan, Joan, Liyana, Jesvanth, Diya, Sakethram, Tanvi, Pranavi, NIthila, Sai Vishnu, Varun
+                    </p>
+                    
+                    <!-- Logo remains under the team list -->
+                    <div class="flex justify-center mt-4">
+                        <img src="https://raw.githubusercontent.com/kurala-T/Waste-Warriors-Initiative/main/w.w.i.l.png" alt="WWI Team Logo" class="h-20 w-20 opacity-70">
+                    </div>
+                    
+                    <p class="text-sm text-gray-500 mt-4">
+                        THE WASTE WARRIORS
+                    </p>
+                </div>
+            </div>
+        </section>
+        <!-- END NEW OUR STORY SECTION -->
+
 
         <section id="timeline" class="py-16 md:py-24 scroll-reveal content-section">
             <h2 class="text-4xl lg:text-5xl font-extrabold text-center section-header mb-12">Our Plan</h2>
@@ -252,9 +351,10 @@
                 <div class="chart-container">
                     <canvas id="wasteChart"></canvas>
                 </div>
-                <div class="mt-6 flex justify-center space-x-4">
-                    <button id="showTotalBtn" class="bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-700 transition">Total Waste</button>
-                    <button id="showPaperBtn" class="bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg shadow hover:bg-gray-300 transition">Paper Waste Only</button>
+                <!-- REMOVED: Button container for showTotalBtn and showPaperBtn -->
+                <div class="mt-6 flex justify-center space-x-4 hidden">
+                    <button id="showTotalBtn" class="bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-red-700 transition">Total Waste</button>
+                    <button id="showPaperBtn" class="bg-primary text-dark-green font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-700 transition">Paper Waste Only</button>
                 </div>
             </div>
         </section>
@@ -266,20 +366,22 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h3 class="text-2xl font-bold text-green-800 mb-4">Competition Rules </h3>
+                    <h3 class="text-2xl font-bold text-dark-green mb-4">Competition Rules </h3>
                     <ul class="list-disc list-inside space-y-2 text-gray-700">
-                        <li><b>Waste Segregation:</b> Highest accuracy in sorting paper from general waste.</li>
-                        <li><b>Waste Reduction:</b> Greatest percentage decrease in total classroom waste.</li>
-                        <li><b>Innovation:</b> Creative and practical ideas for reducing waste in school.</li>
-                        <li><b>Prizes:</b> The winning class gets a the "Waste Warriors" trophy!</li>
+                        <li>1.Highest accuracy in sorting paper from general waste.</li>
+                        <li>2.Greatest percentage decrease in total classroom waste.</li>
+                        <li>3.No using new materials for upcycling, only use waste/extra materials</li>
+                        <li>Creative and practical ideas for reducing waste in school.</li>
+                        <li><b>Prizes:</b> The winning class gets a their Respective Position's Badge and chocolates!</li>
+                        <li>Vistit our <font color="blue"><a href=https://wwi-guidelines-q65aw2c.gamma.site/><B><U>Competition Guidelines</U></B></a></font> page for more datails</li>
                     </ul>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h3 class="text-2xl font-bold text-green-800 mb-4">Live Leaderboard</h3>
+                    <h3 class="text-2xl font-bold text-dark-green mb-4">Live Leaderboard</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left">
                             <thead>
-                                <tr class="bg-green-50">
+                                <tr class="bg-green-100"> <!-- Changed bg-green-50 to bg-green-100 for more green -->
                                     <th class="p-3 font-semibold">Rank</th>
                                     <th class="p-3 font-semibold">Class</th>
                                     <th class="p-3 font-semibold">Paper Recycled (kg)</th>
@@ -294,11 +396,11 @@
             </div>
         </section>
 
-        <!-- NEW EXTRAS SECTION -->
+        <!-- UPDATED EXTRAS SECTION: Only Contact and Materials remain (grid adjusted) -->
         <section id="extras" class="py-16 md:py-24 scroll-reveal content-section">
             <h2 class="text-4xl lg:text-5xl font-extrabold text-center section-header mb-12">Extras & Contact</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                 
                 <!-- CONTACT CARD -->
                 <div class="card p-6 col-span-1">
@@ -308,36 +410,30 @@
                     <p class="text-gray-600 mb-2">
                         For any queries regarding the initiative or data, please contact:
                     </p>
-                    <p class="font-semibold text-lg text-primary">Tejas (Grade 7B)</p>
-                    <p class="text-gray-500 mt-2">
-                        Email: <a href="mailto:kuraltejas@gmail.com" class="text-blue-600 hover:underline">kuraltejas@gmail.com</a>
-                    </p>
+                    <p class="font-semibold text-lg text-primary">Grade 7 Waste Warriors <br>Tejas (Grade 7B)</p>
                 </div>
 
-                <!-- SURVEY RESULTS CARD -->
+                <!-- MATERIALS CARD (Renamed from Survey Results) -->
                 <div class="card p-6 col-span-1">
                     <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                        📋 Survey Results
+                        📚 Materials
                     </h3>
-                    <p class="text-gray-600 mb-4">
-                        View the compiled survey results from our interviews with cleaning staff and teachers.
-                    </p>
-                    <a href="https://bit.ly/4nKoSdR" target="_blank" class="block w-full text-center py-3 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition shadow-lg">
-                        View Survey Report (DOC)
-                    </a>
-                </div>
+                    <div class="space-y-4">
+                        <!-- Survey Results Link -->
+                        <a href="https://bit.ly/4nKoSdR" target="_blank" class="block w-full text-center py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition shadow-md">
+                            View Survey Results (DOC)
+                        </a>
+                        
+                        <!-- NEW: Waste Management Tips Button -->
+                        <a href="https://www.canva.com/design/DAG1lXrZgxQ/AUY0NqXKXaFGim_0RhtEQw/view?utm_content=DAG1lXrZgxQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h5b1699a014" target="_blank" class="block w-full text-center py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition shadow-md">
+                            Waste Management Tips
+                        </a>
 
-                <!-- TEAM & EXTRA INFO PLACEHOLDER -->
-                <div class="card p-6 col-span-1">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                        👥 Our Team
-                    </h3>
-                    <p class="text-gray-600 mb-4 italic">
-                        Members: Tejas, Prithish, Manashvi, Oviyan, Shrawan, Joan, Liyana, Jesvanth, Diya, Sakethram, Tanvi, Pranavi, NIthila, Sai Vishnu, Varun
-                    </p>
-                    <p class="text-sm text-gray-500 mt-4">
-                        THE WASTE WARRIORS
-                    </p>
+                        <!-- Placeholder for future buttons(a target="_blank" class="block w-full text-center py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition shadow-md") -->
+                        <a >
+                            
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -369,13 +465,13 @@
             // 1. Total Classroom Waste (in kg) for each day (MAX 7 ENTRIES)
             //    EXAMPLE: [Day 1: 15.2, Day 2: 14.5, Day 3: 13.0, Day 4: 13.5, Day 5: 12.0, Day 6: null...]
             let totalWasteData = [
-               0, null, null, null, null, null, null, null
+                0.1, null, null, null, null, null, null, null
             ];
 
             // 2. Total Paper Recycled (in kg) for each day (MAX 7 ENTRIES)
             //    EXAMPLE: [Day 1: 3.5, Day 2: 4.0, Day 3: 5.5, Day 4: 5.2, Day 5: 6.8, Day 6: null...]
             let paperWasteData = [
-               0,  null, null, null, null, null, null, null
+                0.1,  null, null, null, null, null, null, null
             ];
 
 
@@ -416,6 +512,13 @@
 
             function renderCharts() {
                 const ctx = document.getElementById('wasteChart').getContext('2d');
+                
+                // --- FIX: Get CSS variable values using JS ---
+                const style = getComputedStyle(document.documentElement);
+                const primaryColor = style.getPropertyValue('--primary').trim();
+                const primaryColorRgba = 'rgba(139, 195, 74, 0.15)'; // Manually match the lightest green color code for Chart BG
+                // --- END FIX ---
+
                 wasteChart = new Chart(ctx, {
                     type: 'line',
                     data: {
@@ -431,8 +534,8 @@
                         {
                             label: 'Paper Waste Recycled (kg)',
                             data: paperWasteData,
-                            borderColor: '#16A34A',
-                            backgroundColor: 'rgba(22, 163, 74, 0.1)',
+                            borderColor: primaryColor, /* FIXED: Used JS variable */
+                            backgroundColor: primaryColorRgba, /* FIXED: Used JS variable */
                             fill: true,
                             tension: 0.3
                         }]
@@ -461,18 +564,7 @@
                     }
                 });
                 
-                // CHART BUTTON LOGIC (Moved here to ensure wasteChart is defined)
-                document.getElementById('showTotalBtn').addEventListener('click', () => {
-                    wasteChart.data.datasets[0].hidden = false;
-                    wasteChart.data.datasets[1].hidden = true;
-                    wasteChart.update();
-                });
-
-                document.getElementById('showPaperBtn').addEventListener('click', () => {
-                    wasteChart.data.datasets[0].hidden = true;
-                    wasteChart.data.datasets[1].hidden = false;
-                    wasteChart.update();
-                });
+                // REMOVED: CHART BUTTON LOGIC (buttons removed from HTML)
             }
 
             function renderLeaderboard() {
@@ -626,7 +718,7 @@
                             <ul class="list-disc list-inside space-y-2">
                                 <li><strong>Monitor Competition:</strong> Check in with competing classes to offer encouragement and ensure rules are followed.</li>
                                 <li><strong>Analyze Data:</strong> Compile two weeks of data to calculate the overall waste reduction percentage and update the site.</li>
-                                <li><strong>Select Winners:</strong> Evaluate competition participants and select the winning class.</li>
+                                <li><strong>Select Winners:</b> Evaluate competition participants and select the winning class.</li>
                                 <li><strong>Announce Results:</strong> In the assembly, share the fantastic results with the whole school.</li>
                                 <li><strong>Recognize Efforts:</strong> Announce winners, present prizes, and thank everyone involved, especially the cleaning staff.</li>
                             </ul>`
@@ -687,4 +779,3 @@
     </script>
 </body>
 </html>
-
