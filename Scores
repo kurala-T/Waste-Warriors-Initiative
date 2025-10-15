@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waste Warriors: Weekly Data Scorecard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #65a30d; /* Lime 600 */
+            --background: #f3f4f6; /* Gray 100 */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: #1f2937; /* Gray 900 */
+        }
+        .form-card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem;
+        }
+        .input-kg, .input-score {
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid #d1d5db;
+            width: 100%;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+        .input-kg:focus, .input-score:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(101, 163, 13, 0.5);
+        }
+        .section-header {
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .editable-cell {
+            background-color: #f9fafb; /* Light grey background to show editability */
+            cursor: pointer;
+        }
+        .disabled-score {
+            background-color: #e5e7eb !important;
+            color: #6b7280;
+            cursor: not-allowed;
+            font-style: italic;
+        }
+        /* Style for printing */
+        @media print {
+            body {
+                background-color: #ffffff;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .form-card {
+                box-shadow: none;
+                border: none;
+                padding: 0;
+            }
+        }
+        .reset-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            transition: color 0.2s;
+            padding: 0;
+            font-size: 1.2rem;
+        }
+        .reset-btn:hover {
+            color: #ef4444; /* Red 500 on hover */
+        }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+
+    <div class="max-w-4xl mx-auto form-card">
+
+        <header class="text-center mb-10">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-green-700">Waste Warriors Data Scorecard</h1>
+            <p class="text-gray-500 mt-2 text-lg">Daily tracking for Grade 6, 7, & 8 Competition (Weights in Kilograms)</p>
+        </header>
+
+        <!-- General Info -->
+        <div class="grid grid-cols-1 gap-6 mb-12 border p-6 rounded-lg bg-yellow-50/50">
+            <div>
+                <label for="classroom" class="block text-sm font-medium text-gray-700">Classroom / Team Name</label>
+                <!-- DROPDOWN IMPLEMENTATION -->
+                <select id="classroom" class="input-kg mt-1 bg-white cursor-pointer">
+                    <option value="">-- Select Your Class --</option>
+                    <!-- Options populated by JavaScript -->
+                </select>
+            </div>
+        </div>
+
+        <!-- Part 1: Competition Data -->
+        <section id="competition-section" class="mb-12">
+            <h2 class="text-2xl font-bold section-header">Part 1: Competition Tracking (Data Collection)</h2>
+            <p class="text-sm text-gray-500 mb-4">Record your data for the 7 selected Competition Days. Upcycling Scores are only entered on **Day 3, Day 7, and Day 11**.</p>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100/70 text-gray-600 uppercase text-sm leading-normal">
+                            <th class="py-3 px-4 border">Day</th>
+                            <th class="py-3 px-4 border">General Waste (kg)</th>
+                            <th class="py-3 px-4 border">Paper Recycled (kg)</th>
+                            <th class="py-3 px-4 border">Upcycling Objects (20 Pts/Object)</th>
+                            <th class="py-3 px-4 border">Action</th> <!-- ACTION COLUMN -->
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-600 text-sm font-light" id="competition-body">
+                        
+                        <!-- Competition Day 1 (Waste only) -->
+                        <tr class="hover:bg-green-50/50 transition duration-150" data-day-row="Day 1">
+                            <td class="py-3 px-4 border font-semibold">Day 1</td>
+                            <td class="py-3 px-4 border"><input type="number" step="0.1" min="0" data-type="comp-general" data-day="Day 1" class="input-kg"></td>
+                            <td class="py-3 px-4 border"><input type="number" step="0.1" min="0" data-type="comp-paper" data-day="Day 1" class="input-kg"></td>
+                            <td class="py-3 px-4 border">
+                                <input type="number" value="0" readonly class="input-score disabled-score" placeholder="0 objects">
+                            </td>
+                            <td class="py-3 px-4 border text-center">
+                                <button class="reset-btn" data-reset-tracking="Day 1" title="Reset Day 1 Data">⟲</button>
+                            </td>
+                        </tr>
+                        <!-- Competition Day 3 (Waste and Upcycle) -->
+                        <tr class="hover:bg-green-50/50 transition duration-150" data-day-row="Day 3">
+                            <td class="py-3 px-4 border font-semibold text-primary">Day 3 (Upcycle Day)</td>
+                            <td class="py-3 px-4 border"><input type="number" step="0.1" min="0" data-type="comp-general" data-day="Day 3" class="input-kg"></td>
+                            <td class="py-3 px-4 border"><input type="number" step="0.1" min="0" data-type="comp-paper" data-day="Day 3" class="input-kg"></td>
+                            <td class="py-3 px-4 border">
+                                <input type="number" step="1" min="0" data-type="comp-upcycle" data-day="Day 3" class="input-score" placeholder="Objects">
+                            </td>
+                            <td class="py-3 px-4 border text-center">
+                                <button class="reset-btn" data-reset-tracking="Day 3" title="Reset Day 3 Data">⟲</button>
+                            </td>
+                        </tr>
+                        <!-- Competition Day 4 (Waste only) -->
+                        <tr class="hover:bg-green-50/50 transition duration-150" data-day-row="Day 4">
+                            <td class="py-3 px-4 border font-semibold">Day 4</td>
+                            <td class="py-3 px-4 border"><input type="number" step="0.1" min="0" data-type="comp-general" data-day="Day 4" class="input-kg"></td>
+                            <td class="py-3 px-4 border"><input type="number" step="0.1" min="0" data-type="comp-paper" data-day="Day 4" class="input-kg"></td>
+                            <td class="py-3 px-4 border">
+                                <input type="number" value="0" readonly class="input-score disabled-score" placeholder="0 objects">
+                            </td>
+                            <td class="py-3 px-4 border text-center">
+                                <button class="reset-btn" data-reset-tracking="Day 4" title="Reset Day 4 Data">⟲</button>
+                            </td>
+                        </tr>
+                         <!-- Competition Day 6 (Waste only) -->
+                        <tr class="hover:bg-green-50/50 transition duration-150" data-day-row="Day 6">
+                            <td class="py-3 px-4 border font-semibold">Day 6</td>
+                            <td class="py-3 px-4 border"><input type="number" step="0.1" min="0" data-type="comp-general" data-day="Day 6" class="input-kg"></td>
+                            <td class="py-3 px-4 border"><input type="number" step="0.1" min="0" data-type="comp-paper" data-day="Day 6" class="input-kg"></td>
+                            <td class="py-3 px-4 border">
+                                <input type="number" value="0" readonly class="input-score disabled-score" placeholder="0 objects">
+                            </td>
+                            <td class="py-3 px-4 border text-center">
+                                <button class="reset-btn" data-reset-tracking="Day 6" title="Reset Day 6 Data">⟲</button>
+                            </td>
+                        </tr>
+                        <!-- Competition Day 7 (Waste and Upcycle) -->
+                        <tr class="hover:bg-green-50/50 transition duration-150" data-day-row="Day 7">
+                            <td class="py-3 px-4 border font-semibold text-primary">Day 7 (Upcycle Day)</td>
+                            <td class="py-3 px-4 border"><input type="number" step="0.1" min="0" data-type="comp-general" data-day="Day 7" class="input-kg"></td>
+                            <td class="py-3 px-4 border"><input type="number" step="0.1" min="0" data-type="comp-paper" data-day="Day 7" class="input-kg"></td>
+                            <td class="py-3 px-4 border">
+                                <input type="number" step="1" min="0" data-type="comp-upcycle" data-day="Day 7" class="input-score" placeholder="Objects">
+                            </td>
+                            <td class="py-3 px-4 border text-center">
+                                <button class="reset-btn" data-reset-tracking="Day 7" title="Reset Day 7 Data">⟲</button>
+                            </td>
+                        </tr>
+                        <!-- Competition Day 9 (Waste only) -->
+                        <tr class="hover:bg-green-50/50 transition duration-150" data-day-row="Day 9">
+                            <td class="py-3 px-4 border font-semibold">Day 9</td>
+                            <td class="py-3 px-4 border"><input type="number" step="0.1" min="0" data-type="comp-general" data-day="Day 9" class="input-kg"></td>
+                            <td class="py-3 px-4 border"><input type="number" step="0.1" min="0" data-type="comp-paper" data-day="Day 9" class="input-kg"></td>
+                            <td class="py-3 px-4 border">
+                                <input type="number" value="0" readonly class="input-score disabled-score" placeholder="0 objects">
+                            </td>
+                            <td class="py-3 px-4 border text-center">
+                                <button class="reset-btn" data-reset-tracking="Day 9" title="Reset Day 9 Data">⟲</button>
+                            </td>
+                        </tr>
+                        <!-- Competition Day 11 (Waste and Upcycle) -->
+                        <tr class="hover:bg-green-50/50 transition duration-150" data-day-row="Day 11">
+                            <td class="py-3 px-4 border font-semibold text-primary">Day 11 (Upcycle Day)</td>
+                            <td class="py-3 px-4 border"><input type="number" step="0.1" min="0" data-type="comp-general" data-day="Day 11" class="input-kg"></td>
+                            <td class="py-3 px-4 border"><input type="number" step="0.1" min="0" data-type="comp-paper" data-day="Day 11" class="input-kg"></td>
+                            <td class="py-3 px-4 border">
+                                <input type="number" step="1" min="0" data-type="comp-upcycle" data-day="Day 11" class="input-score" placeholder="Objects">
+                            </td>
+                            <td class="py-3 px-4 border text-center">
+                                <button class="reset-btn" data-reset-tracking="Day 11" title="Reset Day 11 Data">⟲</button>
+                            </td>
+                        </tr>
+                        
+                        <!-- Totals Row -->
+                        <tr class="bg-gray-200/70 font-extrabold text-gray-800">
+                            <td class="py-3 px-4 border">TOTALS & AVERAGE</td>
+                            <td class="py-3 px-4 border">
+                                <input type="text" id="comp-total-general" readonly class="input-kg bg-transparent border-none font-extrabold text-red-600" value="0.0">
+                            </td>
+                            <td class="py-3 px-4 border">
+                                <input type="text" id="comp-total-paper" readonly class="input-kg bg-transparent border-none font-extrabold text-green-700" value="0.0">
+                            </td>
+                            <td class="py-3 px-4 border">
+                                <input type="text" id="comp-total-upcycle" readonly class="input-score bg-transparent border-none font-extrabold text-blue-600" value="0">
+                            </td>
+                             <td class="py-3 px-4 border"></td> <!-- Empty cell for alignment -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- RESET button only -->
+            <div class="mt-6 flex justify-end items-center no-print">
+                <button id="reset-data-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-lg shadow transition duration-300 flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0114.958 0A6.98 6.98 0 0110 18a7 7 0 11-6.194-3.431A1 1 0 104.942 13.56C3.123 14.86 2 16.593 2 18a1 1 0 002 0c0-1.015.65-1.928 1.603-2.613A8.963 8.963 0 003 11V3a1 1 0 011-1zm6 11a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Reset All Data</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Part 2: Final Results & Calculations -->
+        <section id="results-section" class="mb-12">
+            <h2 class="text-2xl font-bold section-header text-primary">Part 2: Your Class Totals (Automatic)</h2>
+            <p class="text-sm text-gray-500 mb-6">These numbers are your class's final scores.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6"> 
+                <!-- Avg. General Waste (Waste Reduced Metric) -->
+                <div class="card p-5 bg-red-50 border-2 border-red-200 rounded-xl shadow-md">
+                    <h3 class="text-lg font-semibold text-red-600">Avg. General Waste (kg/day)</h3>
+                    <p class="text-sm text-gray-500">Reduction Metric (Lower average is better).</p>
+                    <div class="mt-2 flex items-baseline">
+                        <span class="text-4xl font-extrabold text-red-700" id="final-general-waste">0.0</span>
+                        <span class="text-2xl font-semibold text-red-700 ml-2">kg</span>
+                    </div>
+                </div>
+
+                <!-- NEW: Total Reduction (Sum of Daily Reductions) -->
+                <div class="card p-5 bg-orange-50 border-2 border-orange-200 rounded-xl shadow-md">
+                    <h3 class="text-lg font-semibold text-orange-600">Total Waste Reduction</h3>
+                    <p class="text-sm text-gray-500">Sum of (Previous Day Waste - Current Day Waste).</p>
+                    <div class="mt-2 flex items-baseline">
+                        <span class="text-4xl font-extrabold text-orange-700" id="final-total-reduction">0.0</span>
+                        <span class="text-2xl font-semibold text-orange-700 ml-2">kg</span>
+                    </div>
+                </div>
+
+                <!-- Paper Recycled -->
+                <div class="card p-5 bg-green-50 border-2 border-green-200 rounded-xl shadow-md">
+                    <h3 class="text-lg font-semibold text-green-600">Total Paper Recycled (kg)</h3>
+                    <p class="text-sm text-gray-500">Segregation Metric (Higher is better).</p>
+                    <div class="mt-2 flex items-baseline">
+                        <span class="text-4xl font-extrabold text-green-700" id="final-paper-recycled">0.0</span>
+                        <span class="text-2xl font-semibold text-green-700 ml-2">kg</span>
+                    </div>
+                </div>
+
+                <!-- Total Upcycle Points -->
+                <div class="card p-5 bg-blue-50 border-2 border-blue-200 rounded-xl shadow-md">
+                    <h3 class="text-lg font-semibold text-blue-600">Total Upcycle Points</h3>
+                    <p class="text-sm text-gray-500">Upcycling Metric (20 pts per object).</p>
+                    <div class="mt-2 flex items-baseline">
+                        <span class="text-4xl font-extrabold text-blue-700" id="final-total-upcycle">0</span>
+                        <span class="text-2xl font-semibold text-blue-700 ml-2">pts</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Total Points Section -->
+            <div class="w-full mt-8 p-6 bg-yellow-100 border-2 border-yellow-400 rounded-xl shadow-lg text-center">
+                <h3 class="text-xl font-bold text-yellow-800">CLASS TOTAL SCORE</h3>
+                <p class="text-sm text-gray-600">Total Score = Total Waste Reduction + Total Paper Recycled (kg) + Total Upcycle Points.</p>
+                <div class="mt-2 flex items-center justify-center">
+                    <span class="text-5xl font-extrabold text-yellow-900" id="final-total-score">0.0</span>
+                    <span class="text-3xl font-semibold text-yellow-900 ml-3">Points</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 3: Daily Champions (Spotlight) -->
+        <section id="daily-champions-section" class="mb-12">
+            <h2 class="text-2xl font-bold section-header text-primary">Part 3: Daily Champions (Automatic)</h2>
+            <p class="text-sm text-gray-500 mb-6">Which day had the best results in each category?</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Lowest General Waste Day -->
+                <div class="card p-5 bg-blue-50 border-2 border-blue-200 rounded-xl shadow-md">
+                    <h3 class="text-lg font-semibold text-blue-600">Day with Lowest General Waste</h3>
+                    <p class="text-sm text-gray-500">The day your class threw away the least amount of trash.</p>
+                    <div class="mt-2 flex flex-col sm:flex-row items-baseline">
+                        <span class="text-3xl font-extrabold text-blue-700" id="best-general-day-name">N/A</span>
+                        <span class="text-xl font-semibold text-blue-700 sm:ml-4">at</span>
+                        <span class="text-3xl font-extrabold text-blue-700 sm:ml-2" id="best-general-day-value">0.0</span>
+                        <span class="text-xl font-semibold text-blue-700 ml-1">kg</span>
+                    </div>
+                </div>
+
+                <!-- Highest Paper Recycled Day -->
+                <div class="card p-5 bg-purple-50 border-2 border-purple-200 rounded-xl shadow-md">
+                    <h3 class="text-lg font-semibold text-purple-600">Day with Highest Paper Recycled</h3>
+                    <p class="text-sm text-gray-500">The day your class recycled the most paper.</p>
+                    <div class="mt-2 flex flex-col sm:flex-row items-baseline">
+                        <span class="text-3xl font-extrabold text-purple-700" id="best-paper-day-name">N/A</span>
+                        <span class="text-xl font-semibold text-purple-700 sm:ml-4">with</span>
+                        <span class="text-3xl font-extrabold text-purple-700 sm:ml-2" id="best-paper-day-value">0.0</span>
+                        <span class="text-xl font-semibold text-purple-700 ml-1">kg</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Notes and Print Button -->
+        <div class="mt-10 pt-6 border-t border-gray-200">
+            <label for="notes" class="block text-lg font-bold text-gray-700 mb-2">Notes & Observations</label>
+            <textarea id="notes" rows="4" placeholder="Write down any challenges, innovative ideas, or funny observations from the week here." class="input-kg bg-gray-50"></textarea>
+        </div>
+        
+        <div class="no-print mt-8 text-center">
+            <button onclick="window.print()" class="bg-primary hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300">
+                🖨️ Print Scorecard (or Save as PDF)
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const classes = ['Grade 6A', 'Grade 6B', 'Grade 6C', 'Grade 7A', 'Grade 7B', 'Grade 7C', 'Grade 8A', 'Grade 8B'];
+            const upcyclingScoreDays = ['Day 3', 'Day 7', 'Day 11']; // The only days a score is expected
+            const upcyclePointsPerObject = 20;
+
+            // --- Utility Functions ---
+
+            // Resets inputs within a specific tracking row
+            function resetTrackingRow(rowElement) {
+                rowElement.querySelectorAll('input[data-type="comp-general"], input[data-type="comp-paper"]').forEach(input => {
+                    input.value = '';
+                });
+                // Reset upcycle inputs (only the editable ones)
+                rowElement.querySelectorAll('input[data-type="comp-upcycle"]').forEach(input => {
+                    if (!input.readOnly) {
+                        input.value = '';
+                    }
+                });
+                calculateTotals();
+            }
+            
+            // --- Initialization Functions ---
+
+            // Populate the Classroom Dropdown
+            const classroomSelect = document.getElementById('classroom');
+            classes.forEach(cls => {
+                const option = document.createElement('option');
+                option.value = cls;
+                option.textContent = cls;
+                classroomSelect.appendChild(option);
+            });
+            
+            // --- Part 1 & 2 Calculation Logic ---
+            
+            const calculateTotals = () => {
+                let compGeneralTotal = 0;
+                let compPaperTotal = 0;
+                let compUpcyclePoints = 0; // Total points
+                let daysCounted = 0;
+                let totalWasteReductionSum = 0; // New metric: Sum of (Prev Day - Current Day)
+
+                // Initialize tracking variables
+                let minGeneralWaste = Infinity;
+                let maxGeneralWaste = 0;
+                let bestGeneralDay = 'N/A';
+                let maxPaperRecycled = -1; 
+                let bestPaperDay = 'N/A';
+
+                // Combined list of all 7 days for general/paper tracking
+                const allCompetitionDays = ['Day 1', 'Day 3', 'Day 4', 'Day 6', 'Day 7', 'Day 9', 'Day 11'];
+                
+                const compGeneralInputs = document.querySelectorAll('input[data-type="comp-general"]');
+                const compPaperInputs = document.querySelectorAll('input[data-type="comp-paper"]');
+                const compUpcycleInputs = document.querySelectorAll('input[data-type="comp-upcycle"]');
+
+                const generalWasteValues = []; // Array to store general waste values for reduction calculation
+
+                // 1. Sum up Competition Data and find Max/Min Day
+                compGeneralInputs.forEach((input, index) => {
+                    const generalValue = parseFloat(input.value) || 0;
+                    const paperValue = parseFloat(compPaperInputs[index].value) || 0;
+                    const dayName = allCompetitionDays[index];
+
+                    // Store general waste for later reduction trend calculation
+                    generalWasteValues.push(generalValue);
+
+                    // Accumulate Totals
+                    compGeneralTotal += generalValue;
+                    compPaperTotal += paperValue;
+                    
+                    // Count days with data entered
+                    if (input.value !== '' && input.value !== null) {
+                        daysCounted++;
+                    }
+
+                    // Track Max/Min General Waste
+                    if (generalValue < minGeneralWaste && generalValue >= 0) {
+                        minGeneralWaste = generalValue;
+                        bestGeneralDay = dayName;
+                    }
+                    if (generalValue > maxGeneralWaste) {
+                        maxGeneralWaste = generalValue;
+                    }
+
+                    // Track Highest Paper Recycled
+                    if (paperValue > maxPaperRecycled) {
+                        maxPaperRecycled = paperValue;
+                        bestPaperDay = dayName;
+                    }
+                });
+                
+                // 1b. Calculate Total Waste Reduction (Sum of Previous Day - Current Day)
+                // Start comparing from the 2nd tracked day (i=1)
+                for (let i = 1; i < generalWasteValues.length; i++) {
+                    const previousDayWaste = generalWasteValues[i - 1];
+                    const currentDayWaste = generalWasteValues[i];
+                    
+                    // Only count reduction (positive difference) towards the score
+                    const dailyReduction = Math.max(0, previousDayWaste - currentDayWaste);
+                    totalWasteReductionSum += dailyReduction;
+                }
+
+                
+                // 2. Calculate Total Upcycle Points (ONLY from the 3 scored days)
+                compUpcycleInputs.forEach(input => {
+                    // Check if the input is editable (i.e., it's a scoring day)
+                    if (!input.readOnly) {
+                        const projectsCount = parseFloat(input.value) || 0;
+                        compUpcyclePoints += projectsCount * upcyclePointsPerObject; // 20 points per object
+                    }
+                });
+
+                // Calculate Reduction Metrics
+                const avgGeneralWaste = daysCounted > 0 ? (compGeneralTotal / daysCounted) : 0;
+                
+                // Calculate Final Total Score (Waste Reduction + Paper Recycled + Upcycle Points)
+                const finalTotalScore = totalWasteReductionSum + compPaperTotal + compUpcyclePoints;
+
+
+                // Post-processing for edge cases
+                if (maxPaperRecycled <= 0) {
+                     maxPaperRecycled = 0;
+                     bestPaperDay = 'N/A';
+                }
+                if (compGeneralTotal === 0 && daysCounted === 0) {
+                    minGeneralWaste = 0;
+                    maxGeneralWaste = 0;
+                    bestGeneralDay = 'N/A';
+                } else if (compGeneralTotal === 0 && daysCounted > 0) {
+                     minGeneralWaste = 0;
+                }
+
+                // 3. Update the display fields for Totals in Part 1
+                document.getElementById('comp-total-general').value = compGeneralTotal.toFixed(1);
+                document.getElementById('comp-total-paper').value = compPaperTotal.toFixed(1);
+                document.getElementById('comp-total-upcycle').value = compUpcyclePoints.toFixed(0);
+
+                // 4. Update final results cards (Totals in Part 2)
+                document.getElementById('final-general-waste').textContent = avgGeneralWaste.toFixed(1); // Avg Waste
+                document.getElementById('final-total-reduction').textContent = totalWasteReductionSum.toFixed(1); // Sum of Daily Reduction
+                document.getElementById('final-paper-recycled').textContent = compPaperTotal.toFixed(1);
+                document.getElementById('final-total-upcycle').textContent = compUpcyclePoints.toFixed(0);
+                document.getElementById('final-total-score').textContent = finalTotalScore.toFixed(1); // Total Score
+
+                // 5. Update Daily Champions (Part 3)
+                document.getElementById('best-general-day-name').textContent = bestGeneralDay;
+                document.getElementById('best-general-day-value').textContent = minGeneralWaste.toFixed(1);
+                
+                document.getElementById('best-paper-day-name').textContent = bestPaperDay;
+                document.getElementById('best-paper-day-value').textContent = maxPaperRecycled.toFixed(1);
+            };
+
+            // --- Global Reset Function (attached to the main button) ---
+            function resetScorecardData() {
+                // Reset all Part 1 (Competition Data) inputs
+                document.querySelectorAll('tr[data-day-row]').forEach(row => resetTrackingRow(row));
+
+                // Reset class selection
+                document.getElementById('classroom').value = '';
+
+                // Recalculations are triggered inside the individual reset functions
+                console.log("Scorecard data reset successfully.");
+            }
+
+            // --- Event Wiring ---
+            
+            // Attach individual reset handlers for Part 1
+            document.querySelectorAll('button[data-reset-tracking]').forEach(button => {
+                const day = button.getAttribute('data-reset-tracking');
+                const row = document.querySelector(`tr[data-day-row="${day}"]`);
+                if (row) {
+                    button.addEventListener('click', () => resetTrackingRow(row));
+                }
+            });
+
+            // Attach listeners for main calculation and reset buttons
+            document.querySelectorAll('input[type="number"]').forEach(input => {
+                input.addEventListener('input', calculateTotals);
+            });
+
+            document.getElementById('reset-data-btn').addEventListener('click', resetScorecardData);
+            
+            // Run initial calculations
+            calculateTotals();
+        });
+    </script>
+</body>
+</html>
